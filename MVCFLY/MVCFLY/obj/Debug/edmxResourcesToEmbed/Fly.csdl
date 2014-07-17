@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Fly" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="FlyContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employees" EntityType="Fly.Employee" />
+    <EntitySet Name="Hours" EntityType="Fly.Hours" />
+    <EntitySet Name="Departments" EntityType="Fly.Department" />
+    <AssociationSet Name="EmployeeHours" Association="Fly.EmployeeHours">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Hours" EntitySet="Hours" />
+    </AssociationSet>
+    <AssociationSet Name="HoursDepartment" Association="Fly.HoursDepartment">
+      <End Role="Hours" EntitySet="Hours" />
+      <End Role="Department" EntitySet="Departments" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="EmpID" />
+    </Key>
+    <Property Name="EmpID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Location" Type="String" Nullable="false" />
+    <Property Name="SSN" Type="String" Nullable="false" />
+    <Property Name="Phone" Type="String" Nullable="false" />
+    <NavigationProperty Name="Hours" Relationship="Fly.EmployeeHours" FromRole="Employee" ToRole="Hours" />
+  </EntityType>
+  <EntityType Name="Hours">
+    <Key>
+      <PropertyRef Name="HoursID" />
+    </Key>
+    <Property Name="HoursID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepID" Type="String" Nullable="false" />
+    <Property Name="Vacation" Type="String" Nullable="false" />
+    <Property Name="OT" Type="String" Nullable="false" />
+    <Property Name="RegHours" Type="String" Nullable="false" />
+    <Property Name="Holiday" Type="String" Nullable="false" />
+    <NavigationProperty Name="Employee" Relationship="Fly.EmployeeHours" FromRole="Hours" ToRole="Employee" />
+    <Property Name="EmployeeEmpID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Departments" Relationship="Fly.HoursDepartment" FromRole="Hours" ToRole="Department" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="DeptId" />
+    </Key>
+    <Property Name="DeptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpID" Type="String" Nullable="false" />
+    <Property Name="IT" Type="String" Nullable="false" />
+    <Property Name="Accounting" Type="String" Nullable="false" />
+    <Property Name="Maintence" Type="String" Nullable="false" />
+    <NavigationProperty Name="Hour" Relationship="Fly.HoursDepartment" FromRole="Department" ToRole="Hours" />
+    <Property Name="HoursHoursID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="EmployeeHours">
+    <End Type="Fly.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="Fly.Hours" Role="Hours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EmpID" />
+      </Principal>
+      <Dependent Role="Hours">
+        <PropertyRef Name="EmployeeEmpID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="HoursDepartment">
+    <End Type="Fly.Hours" Role="Hours" Multiplicity="1" />
+    <End Type="Fly.Department" Role="Department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hours">
+        <PropertyRef Name="HoursID" />
+      </Principal>
+      <Dependent Role="Department">
+        <PropertyRef Name="HoursHoursID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

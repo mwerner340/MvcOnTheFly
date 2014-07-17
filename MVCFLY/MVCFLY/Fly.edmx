@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Fly.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="FlyStoreContainer">
+    <EntitySet Name="Employees" EntityType="Fly.Store.Employees" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Hours" EntityType="Fly.Store.Hours" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Departments" EntityType="Fly.Store.Departments" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="EmployeeHours" Association="Fly.Store.EmployeeHours">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Hours" EntitySet="Hours" />
+    </AssociationSet>
+    <AssociationSet Name="HoursDepartment" Association="Fly.Store.HoursDepartment">
+      <End Role="Hours" EntitySet="Hours" />
+      <End Role="Department" EntitySet="Departments" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="EmpID" />
+    </Key>
+    <Property Name="EmpID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SSN" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Hours">
+    <Key>
+      <PropertyRef Name="HoursID" />
+    </Key>
+    <Property Name="HoursID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepID" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Vacation" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OT" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RegHours" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Holiday" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EmployeeEmpID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="DeptId" />
+    </Key>
+    <Property Name="DeptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpID" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IT" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Accounting" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Maintence" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="HoursHoursID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="EmployeeHours">
+    <End Role="Employee" Type="Fly.Store.Employees" Multiplicity="1" />
+    <End Role="Hours" Type="Fly.Store.Hours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EmpID" />
+      </Principal>
+      <Dependent Role="Hours">
+        <PropertyRef Name="EmployeeEmpID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="HoursDepartment">
+    <End Role="Hours" Type="Fly.Store.Hours" Multiplicity="1" />
+    <End Role="Department" Type="Fly.Store.Departments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hours">
+        <PropertyRef Name="HoursID" />
+      </Principal>
+      <Dependent Role="Department">
+        <PropertyRef Name="HoursHoursID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Fly" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="FlyContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Fly.Employee" />
+          <EntitySet Name="Hours" EntityType="Fly.Hours" />
+          <EntitySet Name="Departments" EntityType="Fly.Department" />
+          <AssociationSet Name="EmployeeHours" Association="Fly.EmployeeHours">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Hours" EntitySet="Hours" />
+          </AssociationSet>
+          <AssociationSet Name="HoursDepartment" Association="Fly.HoursDepartment">
+            <End Role="Hours" EntitySet="Hours" />
+            <End Role="Department" EntitySet="Departments" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Location" Type="String" Nullable="false" />
+          <Property Name="SSN" Type="String" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" />
+          <NavigationProperty Name="Hours" Relationship="Fly.EmployeeHours" FromRole="Employee" ToRole="Hours" />
+        </EntityType>
+        <EntityType Name="Hours">
+          <Key>
+            <PropertyRef Name="HoursID" />
+          </Key>
+          <Property Name="HoursID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepID" Type="String" Nullable="false" />
+          <Property Name="Vacation" Type="String" Nullable="false" />
+          <Property Name="OT" Type="String" Nullable="false" />
+          <Property Name="RegHours" Type="String" Nullable="false" />
+          <Property Name="Holiday" Type="String" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Fly.EmployeeHours" FromRole="Hours" ToRole="Employee" />
+          <Property Name="EmployeeEmpID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Departments" Relationship="Fly.HoursDepartment" FromRole="Hours" ToRole="Department" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DeptId" />
+          </Key>
+          <Property Name="DeptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpID" Type="String" Nullable="false" />
+          <Property Name="IT" Type="String" Nullable="false" />
+          <Property Name="Accounting" Type="String" Nullable="false" />
+          <Property Name="Maintence" Type="String" Nullable="false" />
+          <NavigationProperty Name="Hour" Relationship="Fly.HoursDepartment" FromRole="Department" ToRole="Hours" />
+          <Property Name="HoursHoursID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="EmployeeHours">
+          <End Type="Fly.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="Fly.Hours" Role="Hours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmpID" />
+            </Principal>
+            <Dependent Role="Hours">
+              <PropertyRef Name="EmployeeEmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HoursDepartment">
+          <End Type="Fly.Hours" Role="Hours" Multiplicity="1" />
+          <End Type="Fly.Department" Role="Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hours">
+              <PropertyRef Name="HoursID" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="HoursHoursID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FlyStoreContainer" CdmEntityContainer="FlyContainer">
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="IsTypeOf(Fly.Employee)">
+        <MappingFragment StoreEntitySet="Employees">
+          <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="SSN" ColumnName="SSN" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Hours">
+      <EntityTypeMapping TypeName="IsTypeOf(Fly.Hours)">
+        <MappingFragment StoreEntitySet="Hours">
+          <ScalarProperty Name="HoursID" ColumnName="HoursID" />
+          <ScalarProperty Name="DepID" ColumnName="DepID" />
+          <ScalarProperty Name="Vacation" ColumnName="Vacation" />
+          <ScalarProperty Name="OT" ColumnName="OT" />
+          <ScalarProperty Name="RegHours" ColumnName="RegHours" />
+          <ScalarProperty Name="Holiday" ColumnName="Holiday" />
+          <ScalarProperty Name="EmployeeEmpID" ColumnName="EmployeeEmpID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Departments">
+      <EntityTypeMapping TypeName="IsTypeOf(Fly.Department)">
+        <MappingFragment StoreEntitySet="Departments">
+          <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+          <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+          <ScalarProperty Name="IT" ColumnName="IT" />
+          <ScalarProperty Name="Accounting" ColumnName="Accounting" />
+          <ScalarProperty Name="Maintence" ColumnName="Maintence" />
+          <ScalarProperty Name="HoursHoursID" ColumnName="HoursHoursID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

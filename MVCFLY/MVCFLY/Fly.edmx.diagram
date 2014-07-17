@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4261065eff4b41049ee837d259c7daf0" Name="Diagram1" >
+        <EntityTypeShape EntityType="Fly.Employee" Width="1.5" PointX="4.5" PointY="0.5" />
+        <EntityTypeShape EntityType="Fly.Hours" Width="1.5" PointX="6.75" PointY="1" />
+        <EntityTypeShape EntityType="Fly.Department" Width="1.5" PointX="9.25" PointY="1.375" />
+        <AssociationConnector Association="Fly.EmployeeHours" />
+        <AssociationConnector Association="Fly.HoursDepartment" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
